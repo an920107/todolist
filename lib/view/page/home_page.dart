@@ -16,24 +16,38 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       final platform = context.read<PlatformViewModel>().platform;
+      final width = context.read<PlatformViewModel>().width;
+      final double sidePadding = width > 1280 ? (width - 1280 + 40) / 2 : 20;
       return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          leading: const Icon(Icons.checklist),
+          titleSpacing: 0,
+          centerTitle: false,
+          title: Row(children: [
+            SizedBox(width: sidePadding),
+            const Icon(Icons.checklist),
+            AppBarPadding.title(child: const Text("TODO List")),
+          ]),
           actions: [
             AppBarPadding.action(child: const DarkmodeSwitch()),
-            AppBarPadding.action(isLastOne: true, child: const SignInButton()),
+            AppBarPadding.action(child: const SignInButton()),
+            SizedBox(width: sidePadding),
           ],
-          title: const Text("TODO List"),
         ),
         endDrawer: const BaseEndDrawer(),
-        body: platform == Platform.mobile
-            ? LayoutPadding.narrow(child: const TodoAnimatedList())
-            : LayoutPadding.wide(child: const TodoAnimatedList()),
-        bottomNavigationBar: platform == Platform.mobile
-            ? LayoutPadding.narrow(child: const TodoInput())
-            : LayoutPadding.wide(child: const TodoInput()),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: sidePadding),
+          child: platform == Platform.mobile
+              ? LayoutPadding.narrow(child: const TodoAnimatedList())
+              : LayoutPadding.wide(child: const TodoAnimatedList()),
+        ),
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.symmetric(horizontal: sidePadding),
+          child: platform == Platform.mobile
+              ? LayoutPadding.narrow(child: const TodoInput())
+              : LayoutPadding.wide(child: const TodoInput()),
+        ),
       );
     });
   }

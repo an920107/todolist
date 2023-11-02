@@ -1,19 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:todolist/enum/platform.dart';
 
-/// 給予裝置寬度（通常在最外層元件如 [MaterialApp]），判斷平台為電腦、平板，或手機
+/// 給予裝置寬度（通常在最外層元件如 [MaterialApp]），判斷平台為電腦、平板，或手機。
+///
+/// 由於裝置寬度發生變化時，部份 [Widget] 會進行重新渲染，不需使用 [Consumer] 監聽，
+/// 這個 [Provider] 並沒有 mixin [ChangeNotifier]，若發現裝置寬度改變時，並沒有
+/// 重新渲染，請使用 [LayoutBuilder]
+///
+/// Example:
+/// ```dart
+/// LayoutBuilder(builder: (context, constraints) {
+///   final platform =
+///     context.select((PlatformViewModel value) => value.platform);
+///   return WidgetToRerender();
+/// }),
+/// ```
 class PlatformViewModel {
-  Platform _platform = Platform.mobile;
+  /// 平台裝置大小
+  Size size = const Size.square(0);
 
-  Platform get platform => _platform;
-
-  void setDeviceWidth(double width) {
-    if (width >= 1280) {
-      _platform = Platform.computer;
-    } else if (width >= 960) {
-      _platform = Platform.tablet;
+  /// 取得當前平台裝置的類型
+  Platform get platform {
+    if (size.width >= 1280) {
+      return Platform.computer;
+    } else if (size.width >= 960) {
+      return Platform.tablet;
     } else {
-      _platform = Platform.mobile;
+      return Platform.mobile;
     }
   }
+
+  /// 取得當前平台裝置的寬度
+  double get width => size.width;
+
+  /// 取得當前平台裝置的高度
+  double get height => size.height;
 }

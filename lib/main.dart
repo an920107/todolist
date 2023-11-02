@@ -46,9 +46,7 @@ class Main extends StatelessWidget {
         ),
       ],
       child: Builder(builder: (context) {
-        context
-            .read<PlatformViewModel>()
-            .setDeviceWidth(MediaQuery.of(context).size.width);
+        context.read<PlatformViewModel>().size = MediaQuery.of(context).size;
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: "TODO List",

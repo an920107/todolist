@@ -15,6 +15,12 @@ abstract class AppBarPadding extends Padding {
         padding: EdgeInsets.only(left: 20, right: isLastOne ? 20 : 0),
         child: child,
       );
+
+  factory AppBarPadding.title({Key? key, Widget? child}) => _AppBarPadding(
+        key: key,
+        padding: const EdgeInsets.only(left: 20),
+        child: child,
+      );
 }
 
 class _AppBarPadding extends AppBarPadding {
@@ -32,7 +38,6 @@ abstract class LayoutPadding extends Padding {
   factory LayoutPadding.wide({Key? key, Widget? child}) => _LayoutPadding(
         key: key,
         padding: const EdgeInsets.symmetric(
-          horizontal: 60,
           vertical: 40,
         ),
         child: child,
@@ -41,7 +46,6 @@ abstract class LayoutPadding extends Padding {
   factory LayoutPadding.narrow({Key? key, Widget? child}) => _LayoutPadding(
         key: key,
         padding: const EdgeInsets.symmetric(
-          horizontal: 30,
           vertical: 20,
         ),
         child: child,
